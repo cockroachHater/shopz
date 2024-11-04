@@ -7,7 +7,12 @@ build/
 
 ### ENV ###
 !**/src/main/front/.env
-!**/src/main/resources/application.properties
+
+###properties###
+application.properties
+
+.idea
+out/
 
 ### STS ###
 .apt_generated
