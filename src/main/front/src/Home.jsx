@@ -2,7 +2,7 @@ import logoR from "./img/logoR.png";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { appUrl } from "./api/appUrl";
-import Header from "./layouts/Header";
+import { Helmet } from "react-helmet-async";
 
 export default function Home() {
   const [hello, setHello] = useState([{ id: 0, title: "", price: 0 }]);
@@ -19,7 +19,10 @@ export default function Home() {
 
   return (
     <>
-      <Header></Header>
+      <Helmet>
+        <title>So Sweet</title>
+      </Helmet>
+
       <div className="App">
         <header className="App-header">
           <img src={logoR} className="App-logo" alt="logo" />
