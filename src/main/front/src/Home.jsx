@@ -24,7 +24,7 @@ export default function Home() {
       </Helmet>
 
       <div className="App">
-        <header className="App-header">
+        <div>
           <img src={logoR} className="App-logo" alt="logo" />
           <p>Main</p>
           {hello.map((item) => (
@@ -32,7 +32,7 @@ export default function Home() {
               ID : {item.id}, Title : {item.title}, Price : {item.price}
             </div>
           ))}
-        </header>
+        </div>
       </div>
     </>
   );

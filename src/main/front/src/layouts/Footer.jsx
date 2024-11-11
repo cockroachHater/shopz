@@ -1,7 +1,9 @@
+import "../App.css";
+
 export default function Footer() {
   return (
     <>
-      <div>Foooooter</div>
+      <div className="footerLayout">Foooooter</div>
     </>
   );
 }
