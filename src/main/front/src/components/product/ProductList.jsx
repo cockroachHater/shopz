@@ -1,10 +1,9 @@
-import { Outlet } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import test1 from "../img/test/c10.jpg";
-import test2 from "../img/test/c11.jpg";
-import test3 from "../img/test/c12.jpg";
+import test1 from "../../img/test/c10.jpg";
+import test2 from "../../img/test/c11.jpg";
+import test3 from "../../img/test/c12.jpg";
 import styled from "styled-components";
-export default function ProductLayout() {
+export default function ProductList() {
   return (
     <>
       <Container>
@@ -15,7 +14,6 @@ export default function ProductLayout() {
           <Product src={test3} />
         </ProductRow>
       </Container>
-      <Outlet />
     </>
   );
 }

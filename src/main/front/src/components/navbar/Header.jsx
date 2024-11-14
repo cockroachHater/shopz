@@ -1,15 +1,15 @@
-import logoR from "../img/logoR.png";
 import Container from "react-bootstrap/Container";
+import logoR from "../../img/logoR.png";
+import Offcanvas from "react-bootstrap/Offcanvas";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import styled from "styled-components";
 import { Icon } from "@iconify/react";
+import styled from "styled-components";
 
 export default function Header() {
   return (
-    <Navbar expand={"lg"} style={{ backgroundColor: "#222" }}>
+    <Navbar expand={"md"} style={{ backgroundColor: "#222" }}>
       <Container fluid>
         <Navbar.Brand href="/">
           <img
@@ -53,6 +53,9 @@ export default function Header() {
               <Nav.Link href="/faq">
                 <Font>FAQ</Font>
               </Nav.Link>
+              <Nav.Link href="/login">
+                <Auth>Login</Auth>
+              </Nav.Link>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
@@ -64,7 +67,11 @@ export default function Header() {
 let Font = styled.div`
   color: #82cfff;
 `;
-
+let Auth = styled.div`
+  color: #eeeeee;
+  position: absolute;
+  right: 5%;
+`;
 let Category = styled.span`
   color: #82cfff;
 `;

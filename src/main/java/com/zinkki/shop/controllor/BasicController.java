@@ -5,9 +5,7 @@ import com.zinkki.shop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +37,14 @@ public class BasicController {
         List<Item> result = itemRepository.findAll();
         System.out.println(result);
         return result;
+    }
+
+    @PostMapping("/api/add")
+    @ResponseBody
+    String add(@RequestParam String title, @RequestParam Integer price){
+        System.out.println(title);
+        System.out.println(price);
+        return "done!";
     }
 
 }
