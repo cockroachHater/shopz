@@ -1,4 +1,4 @@
-package com.zinkki.shop.repository;
+package com.zinkki.shop.repository.item;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

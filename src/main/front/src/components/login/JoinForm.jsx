@@ -1,18 +1,16 @@
 import { Helmet } from "react-helmet-async";
+import { useState } from "react";
 import { appUrl } from "../../api/appUrl";
 import Alert from "@mui/material/Alert";
-import { useState } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { useNavigate } from "react-router-dom";
 
-export default function LoginForm() {
-  const navigate = useNavigate();
+export default function JoinForm() {
   const [show, setShow] = useState(false);
 
-  const login = (e) => {
+  const join = (e) => {
     e.preventDefault();
     const username = e.target.username.value;
     const password = e.target.password.value;
@@ -20,33 +18,24 @@ export default function LoginForm() {
     console.log(password);
 
     appUrl
-      .post("/login", null, {
+      .post("/join", null, {
         params: { username: username, password: password },
-        headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data !== "ok") {
-          //alert("id와 password를 확인하세요!");
           setShow(true);
-        }
-        if (res.data === "ok") {
-          navigate("/");
         } else {
-          console.log("else : " + res.data);
           setShow(false);
+          alert("success!");
         }
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <>
-      <Helmet>
-        <title>Login Page</title>
-      </Helmet>
-      <div className="title_text">Login</div>
-      <form onSubmit={login}>
+      <Helmet>Join Page</Helmet>
+      <div className="title_text">Join</div>
+      <form onSubmit={join}>
         <FloatingLabel
           controlId="floatingInput"
           label="ID"
@@ -69,21 +58,12 @@ export default function LoginForm() {
           <></>
         )}
         <Button
-          className={"m-3"}
-          onClick={() => {
-            navigate("/join");
-          }}
-          variant={"outlined"}
-        >
-          Join
-        </Button>
-        <Button
-          className={"m-3"}
+          className={"mt-3"}
           variant="contained"
           type={"submit"}
           endIcon={<SendIcon />}
         >
-          Login
+          Send
         </Button>
       </form>
     </>

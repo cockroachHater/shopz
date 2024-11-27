@@ -65,7 +65,7 @@ export default function Header() {
 }
 
 let Font = styled.div`
-  color: #82cfff;
+  color: #90caf9;
 `;
 let Auth = styled.div`
   color: #eeeeee;
@@ -73,5 +73,5 @@ let Auth = styled.div`
   right: 5%;
 `;
 let Category = styled.span`
-  color: #82cfff;
+  color: #90caf9;
 `;

@@ -21,8 +21,14 @@
   align-items: center;
   text-align: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /*font-size: calc(10px + 2vmin);*/
+  color: #ababab;
+}
+
+.title_text {
+  color: #90caf9;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .footerLayout {
@@ -37,7 +43,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #90caf9;
 }
 
 @keyframes App-logo-spin {

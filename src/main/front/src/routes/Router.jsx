@@ -4,12 +4,14 @@ import Event from "../components/event/Event";
 import Faq from "../components/faq/Faq";
 import Layout from "../layouts/Layout";
 import Manage from "../pages/manage/Manage";
+import JoinForm from "../components/login/JoinForm";
 
 export default function Router() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="login" element={<LoginForm />} />
+        <Route path="join" element={<JoinForm />} />
         <Route path="event" element={<Event />} />
         <Route path="faq" element={<Faq />} />
         <Route path="manage" element={<Manage />} />
