@@ -26,15 +26,11 @@ export default function LoginForm() {
       })
       .then((res) => {
         console.log(res.data);
-        if (res.data !== "ok") {
-          //alert("id와 password를 확인하세요!");
-          setShow(true);
-        }
-        if (res.data === "ok") {
-          navigate("/");
-        } else {
-          console.log("else : " + res.data);
-          setShow(false);
+        if (res.data !== "failed") {
+          //setShow(true);
+          console.log(res.data);
+          localStorage.setItem("jwt_token", res.data);
+          navigate("/mypage");
         }
       })
       .catch((err) => console.log(err));
@@ -61,7 +57,7 @@ export default function LoginForm() {
             name={"password"}
           />
         </FloatingLabel>
-        {show == true ? (
+        {show === true ? (
           <Alert severity="error" className={"mt-3"}>
             Check your id or password!
           </Alert>

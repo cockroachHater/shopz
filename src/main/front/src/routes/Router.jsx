@@ -5,6 +5,7 @@ import Faq from "../components/faq/Faq";
 import Layout from "../layouts/Layout";
 import Manage from "../pages/manage/Manage";
 import JoinForm from "../components/login/JoinForm";
+import MyPage from "../components/login/MyPage";
 
 export default function Router() {
   return (
@@ -12,6 +13,7 @@ export default function Router() {
       <Route path="/" element={<Layout />}>
         <Route path="login" element={<LoginForm />} />
         <Route path="join" element={<JoinForm />} />
+        <Route path="mypage" element={<MyPage />} />
         <Route path="event" element={<Event />} />
         <Route path="faq" element={<Faq />} />
         <Route path="manage" element={<Manage />} />

@@ -6,16 +6,6 @@ import logoR from "../../img/logoR.png";
 export default function Main() {
   const [item, setItem] = useState([{ id: 0, title: "", price: 0 }]);
 
-  // useEffect(() => {
-  //   appUrl
-  //     .get("/list")
-  //     .then((result) => {
-  //       console.log(result.data);
-  //       setItem(result.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
-
   const getItem = async () => {
     const list = await appUrl
       .get("/list")
@@ -27,6 +17,7 @@ export default function Main() {
   };
 
   useEffect(() => {
+    localStorage.clear();
     getItem();
   }, []);
 

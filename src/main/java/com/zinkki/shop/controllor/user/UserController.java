@@ -2,11 +2,10 @@ package com.zinkki.shop.controllor.user;
 
 import com.zinkki.shop.repository.user.User;
 import com.zinkki.shop.repository.user.UserRepository;
-import com.zinkki.shop.service.user.CustomUser;
 import com.zinkki.shop.service.user.JwtUtil;
+import com.zinkki.shop.service.user.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,6 +28,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final UserService userService;
 
     @Value("${jwt.secret.key}")
     private String secretKey;
@@ -39,44 +39,46 @@ public class UserController {
                    HttpServletResponse response) {
         var authToken = new UsernamePasswordAuthenticationToken(username, password);
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        System.out.println("드디어 컨트롤러에서ㅠㅠ auth : " + auth);
-        System.out.println("드디어 컨트롤러에서ㅠㅠ auth : " + auth.getName());
-        System.out.println("드디어 컨트롤러에서ㅠㅠ auth : " + auth.isAuthenticated());
+        if(auth != null) {
+            System.out.println("안비었어~~~");
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            System.out.println("드디어 컨트롤러에서ㅠㅠ auth : " + auth);
+            System.out.println("드디어 컨트롤러에서ㅠㅠ auth : " + auth.getName());
+            System.out.println("드디어 컨트롤러에서ㅠㅠ auth : " + auth.isAuthenticated());
 
-        var jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication(),secretKey);
-        System.out.println(jwt);
+            var jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication(),secretKey);
+            System.out.println(jwt);
 
-        //계속 비어서 직접 넣어버림...ㅎ
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println("authentication : " + authentication);
-//        System.out.println("authentication name : " + authentication.getName());
-//        System.out.println("authentication.is Authenticated : " + authentication.isAuthenticated());
+            var cookie = new Cookie("jwt", jwt);
+            cookie.setMaxAge(60); // 10=10초
+            cookie.setHttpOnly(true); //true => 자바스크립트로 쿠키조작 어려워짐;
+            cookie.setPath("/"); //모든경로에서 쿠키전송
+            response.addCookie(cookie);
 
-
-        var cookie = new Cookie("jwt", jwt);
-        cookie.setMaxAge(60); // 10=10초
-        cookie.setHttpOnly(true); //true => 자바스크립트로 쿠키조작 어려워짐;
-        cookie.setPath("/"); //모든경로에서 쿠키전송
-        response.addCookie(cookie);
-
-        if(jwt.isEmpty() || jwt.equals("null") || jwt.equals("") || jwt==null) {
-            System.out.println("jwt비었다!!!!!");
-            return "failed";
+            return jwt;
         }
         else {
-            System.out.println("안비었어~~~");
-            return "ok";
+            System.out.println("auth비었다!!!!!");
+            return "failed";
         }
     }
 
-    @GetMapping("/mypage")
-    public String myPage(Authentication auth) {
-        System.out.println(auth);
-        System.out.println(auth.getName());
-        System.out.println(auth.isAuthenticated());
-        System.out.println("A------------");
-        return "index.html";
+    @GetMapping("/api/mypage")
+    @ResponseBody
+    public String myPage() {
+        System.out.println("api-------mypage");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        if(username.equals("anonymousUser")) {
+            System.out.println("api-------mypage----auth is null");
+            return "null";
+        }
+        else {
+            System.out.println(auth.getName());
+            Optional<User> user = userRepository.findByUsername(auth.getName());
+            System.out.println("api-------mypage----end");
+            return user.get().getUsername();
+        }
     }
 
     @PostMapping("/api/join")

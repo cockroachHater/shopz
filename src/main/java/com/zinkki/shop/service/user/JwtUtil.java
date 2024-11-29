@@ -15,11 +15,6 @@ import java.util.stream.Collectors;
 @Component
 public class JwtUtil {
 
-//    static final SecretKey key =
-//            Keys.hmacShaKeyFor(Decoders.BASE64.decode(
-//                    "//걍 넣었는데 application.properties에 옮김"
-//            ));
-
     // Create JWT
     public static String createToken(Authentication auth, @Value("${jwt.secret.key}")String secretKey) {
         System.out.println("create Token!!! 1 : ");
