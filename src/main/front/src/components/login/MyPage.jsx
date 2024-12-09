@@ -4,7 +4,7 @@ import { appUrl } from "../../api/appUrl";
 
 export default function MyPage() {
   useEffect(() => {
-    getJwt();
+    console.log(localStorage.getItem("email"));
   }, []);
 
   const getJwt = async () => {

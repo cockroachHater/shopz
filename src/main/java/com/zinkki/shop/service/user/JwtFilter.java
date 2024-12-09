@@ -35,11 +35,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //쿠키 없으면 실행 멈추기
         if(cookies == null) {
-            System.out.println("필터 실행 중지이이이~~~쿠키비었다!");
+            System.out.println("쿠키X XX필터실행XX");
             filterChain.doFilter(request, response);
             return;
         }
-        System.out.println("쿠키 있다~ 실행을 계속해라~");
+        System.out.println("쿠키O OO필터실행OO");
         //쿠키 Name이 항상 jwt만 있는게 아님, Name이 jwt인거만 가져오기
         var jwtCookie = "";
         for(int i=0;i<cookies.length;i++){
@@ -65,20 +65,20 @@ public class JwtFilter extends OncePerRequestFilter {
         var authorities = Arrays.stream(arr).map(a ->new SimpleGrantedAuthority(a)).toList();
 
         var customUser = new CustomUser(
-                claim.get("username").toString(),
+                claim.get("email").toString(),
                 "secret",
                 authorities
         );
 
-        customUser.displayName = claim.get("username").toString();
-        System.out.println("filter -> customuser displayname~" + customUser.displayName);
+        customUser.name = claim.get("email").toString();
+        System.out.println("filter -> customuser displayname~" + customUser.name);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("Filter! =>" + authentication);
         System.out.println("Filter! =>" +authentication.getName());
         System.out.println("Filter! =>" +authentication.isAuthenticated());
 
-        var authToken = new UsernamePasswordAuthenticationToken(claim.get("username").toString(), "");
+        var authToken = new UsernamePasswordAuthenticationToken(claim.get("email").toString(), "");
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
 

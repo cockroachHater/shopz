@@ -35,9 +35,9 @@ public class UserController {
 
     @PostMapping("/api/login")
     @ResponseBody
-      String login(@RequestParam String username, @RequestParam String password,
+      String login(@RequestParam String email, @RequestParam String password,
                    HttpServletResponse response) {
-        var authToken = new UsernamePasswordAuthenticationToken(username, password);
+        var authToken = new UsernamePasswordAuthenticationToken(email, password);
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
         if(auth != null) {
             System.out.println("안비었어~~~");
@@ -55,7 +55,7 @@ public class UserController {
             cookie.setPath("/"); //모든경로에서 쿠키전송
             response.addCookie(cookie);
 
-            return jwt;
+            return auth.getName();
         }
         else {
             System.out.println("auth비었다!!!!!");
@@ -68,40 +68,61 @@ public class UserController {
     public String myPage() {
         System.out.println("api-------mypage");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        if(username.equals("anonymousUser")) {
+        String email = auth.getName();
+        if(email.equals("anonymousUser")) {
             System.out.println("api-------mypage----auth is null");
             return "null";
         }
         else {
             System.out.println(auth.getName());
-            Optional<User> user = userRepository.findByUsername(auth.getName());
+            Optional<User> user = userRepository.findByEmail(auth.getName());
             System.out.println("api-------mypage----end");
-            return user.get().getUsername();
+            return user.get().getEmail();
         }
+    }
+
+    @PostMapping("/api/idCheck")
+    @ResponseBody
+    String idCheck(@RequestParam String email) {
+        String result = userService.idCheck(email);
+        return result;
+    }
+
+    @PostMapping("/api/test")
+    @ResponseBody
+    String test(@RequestParam String address, String name, String phone) {
+        System.out.println(address);
+        System.out.println(name);
+        System.out.println(phone);
+        return "ok";
     }
 
     @PostMapping("/api/join")
     @ResponseBody
-    String join(@RequestParam String username, @RequestParam String password) {
+    String join(@RequestParam String email, @RequestParam String password) {
         try {
-            if(username == null || password == null ||
-                    username.equals("") || password.equals("") ||
-                    username.trim().isEmpty() == true || password.trim().isEmpty() == true) {
-                System.out.println("id or password is null");
-                throw new Exception();
+            if(email == null || password == null ||
+                    email.equals("") || password.equals("") ||
+                    email.trim().isEmpty() == true || 
+                    password.trim().isEmpty() == true) { // id,pw비었을때
+                System.out.println("email or password is null"); 
+                return "nullError";
             }
-            if(username.length() < 6 || password.length() < 6) {
-                System.out.println("id length is less than 6");
-                throw new Exception();
+            if(email.length() < 6 || password.length() < 6) { // id,pw 6자이하
+                System.out.println("email length is less than 6"); 
+                return "shortError";
+            }
+            if(email.length() > 29 || password.length() > 29) { // id,pw 30자이상
+                System.out.println("email and password is no more than 30 characters!");
+                return "longError";
             }
             else {
                 var hash = bCryptPasswordEncoder.encode(password);
                 User user = new User();
-                user.setUsername(username);
+                user.setEmail(email);
                 user.setPassword(hash);
                 userRepository.save(user);
-                System.out.println(username);
+                System.out.println(email);
                 System.out.println(password);
                 return "ok";
             }

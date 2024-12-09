@@ -14,26 +14,24 @@ export default function LoginForm() {
 
   const login = (e) => {
     e.preventDefault();
-    const username = e.target.username.value;
+    const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(username);
-    console.log(password);
 
     appUrl
       .post("/login", null, {
-        params: { username: username, password: password },
+        params: { email: email, password: password },
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data !== "failed") {
-          //setShow(true);
-          console.log(res.data);
-          localStorage.setItem("jwt_token", res.data);
+          // localStorage.setItem("jwt_token", res.data);
+          localStorage.setItem("email", res.data);
           navigate("/mypage");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setShow(true);
+      });
   };
 
   return (
@@ -45,10 +43,10 @@ export default function LoginForm() {
       <form onSubmit={login}>
         <FloatingLabel
           controlId="floatingInput"
-          label="ID"
+          label="email"
           className="mb-3 mt-3"
         >
-          <Form.Control type="text" placeholder="id" name={"username"} />
+          <Form.Control type="text" placeholder="email" name={"email"} />
         </FloatingLabel>
         <FloatingLabel controlId="floatingPassword" label="Password">
           <Form.Control

@@ -1,6 +1,7 @@
 package com.zinkki.shop.repository.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +14,11 @@ public class User {
     public int seq;
 
     @Column(unique = true)
-    public String username;
+    public String email;
+    public String name;
     public String password;
-
+    public String address;
+    public String phone;
 }
 
 

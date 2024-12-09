@@ -23,7 +23,7 @@ public class JwtUtil {
         var authorities = auth.getAuthorities().stream().map(a -> a.getAuthority())
                 .collect(Collectors.joining(","));
         String jwt = Jwts.builder()
-                .claim("username", user.getUsername())
+                .claim("email", user.getUsername())
                 .claim("authorities", authorities)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 60000)) //10000일때 = 유효기간 10초

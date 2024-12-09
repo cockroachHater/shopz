@@ -59,3 +59,8 @@
 .dropdown-toggle::after {
   display: none !important;
 }
+
+.formControl {
+  padding: 15px;
+  min-width: 320px;
+}

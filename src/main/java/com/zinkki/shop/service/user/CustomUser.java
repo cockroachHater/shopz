@@ -7,11 +7,11 @@ import java.util.Collection;
 
 public class CustomUser extends User {
     public int seq;
-    public String displayName;
+    public String name;
     public CustomUser(
-            String username,
+            String email,
             String password,
             Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+        super(email, password, authorities);
     }
 }
