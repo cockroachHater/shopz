@@ -6,8 +6,15 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Icon } from "@iconify/react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-export default function Header() {
+export default function Header(props) {
+  const navigate = useNavigate();
+  function logout() {
+    localStorage.clear();
+    navigate("/");
+  }
+
   return (
     <Navbar expand={"md"} style={{ backgroundColor: "#222" }}>
       <Container fluid>
@@ -35,16 +42,24 @@ export default function Header() {
                   </Category>
                 }
               >
-                <NavDropdown.Item href="/candy">Candy</NavDropdown.Item>
-                <NavDropdown.Item href="/jelly">Jelly</NavDropdown.Item>
-                <NavDropdown.Item href="/chocolate">Chocolate</NavDropdown.Item>
-                <NavDropdown.Item href="/caramel">Caramel</NavDropdown.Item>
-                <NavDropdown.Item href="/marshmallow">
+                <NavDropdown.Item href="/category/candy">
+                  Candy
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/category/jelly">
+                  Jelly
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/category/chocolate">
+                  Chocolate
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/category/caramel">
+                  Caramel
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/category/marshmallow">
                   Marshmallow
                 </NavDropdown.Item>
               </NavDropdown>
 
-              <Nav.Link href="/best">
+              <Nav.Link href="/category/best">
                 <Font>Best</Font>
               </Nav.Link>
               <Nav.Link href="/event">
@@ -53,9 +68,37 @@ export default function Header() {
               <Nav.Link href="/faq">
                 <Font>FAQ</Font>
               </Nav.Link>
-              <Nav.Link href="/login">
-                <Auth>Login</Auth>
-              </Nav.Link>
+
+              {props.userName === null ? (
+                <Nav.Link href="/login">
+                  <Auth>Login</Auth>
+                </Nav.Link>
+              ) : (
+                <Auth>
+                  <NavDropdown
+                    title={
+                      <Category>
+                        {props.userName}
+                        <Icon icon="nrk:arrow-dropdown" />
+                      </Category>
+                    }
+                  >
+                    {props.userRole === "manager" ? (
+                      <NavDropdown.Item href="/manage">
+                        관리자페이지
+                      </NavDropdown.Item>
+                    ) : null}
+                    <NavDropdown.Item href="/mypage">
+                      마이페이지
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/buy">구매내역</NavDropdown.Item>
+                    <NavDropdown.Item href="/cart">장바구니</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => logout()}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Auth>
+              )}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
@@ -70,7 +113,7 @@ let Font = styled.div`
 let Auth = styled.div`
   color: #eeeeee;
   position: absolute;
-  right: 5%;
+  right: 15%;
 `;
 let Category = styled.span`
   color: #90caf9;

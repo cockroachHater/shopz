@@ -23,18 +23,18 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println("Service---------------1");
         var result = userRepository.findByEmail(email);
         if(result.isEmpty()) {
-            System.out.println("No user found with id!------------");
             throw new UsernameNotFoundException("No user found with id!");
         }
         var user = result.get();
         List<GrantedAuthority> grant = new ArrayList<>();
         grant.add(new SimpleGrantedAuthority("user"));
-        System.out.println("Service---------------2");
         var a = new CustomUser(user.getEmail(), user.getPassword(), grant);
-        a.seq = user.getSeq();
+        a.user_seq = user.getUser_seq();
+        a.name = user.getName();
+        a.email = user.getEmail();
+        a.user_role = user.getUser_role();
         return a;
     }
 

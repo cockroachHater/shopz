@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -17,19 +16,20 @@ public class JwtUtil {
 
     // Create JWT
     public static String createToken(Authentication auth, @Value("${jwt.secret.key}")String secretKey) {
-        System.out.println("create Token!!! 1 : ");
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
         var user = (CustomUser) auth.getPrincipal();
+
         var authorities = auth.getAuthorities().stream().map(a -> a.getAuthority())
                 .collect(Collectors.joining(","));
         String jwt = Jwts.builder()
                 .claim("email", user.getUsername())
                 .claim("authorities", authorities)
+                .claim("name", user.name)
+                .claim("user_seq", user.user_seq)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 60000)) //10000일때 = 유효기간 10초
                 .signWith(key)
                 .compact();
-        System.out.println("create Token!!! 2 : ");
         return jwt;
     }
 

@@ -23,9 +23,11 @@ export default function LoginForm() {
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
-        if (res.data !== "failed") {
-          // localStorage.setItem("jwt_token", res.data);
-          localStorage.setItem("email", res.data);
+        if (res.data !== null) {
+          localStorage.setItem("seq", res.data.user_seq);
+          localStorage.setItem("email", res.data.email);
+          localStorage.setItem("name", res.data.name);
+          localStorage.setItem("role", res.data.user_role);
           navigate("/mypage");
         }
       })
@@ -57,7 +59,7 @@ export default function LoginForm() {
         </FloatingLabel>
         {show === true ? (
           <Alert severity="error" className={"mt-3"}>
-            Check your id or password!
+            잘못된 정보입니다!
           </Alert>
         ) : (
           <></>

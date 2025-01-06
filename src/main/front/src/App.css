@@ -16,8 +16,8 @@
 .mainLayout {
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  /*display: flex;*/
+  /*flex-direction: column;*/
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -29,6 +29,25 @@
   color: #90caf9;
   font-size: 2rem;
   font-weight: bold;
+}
+.manageLayout {
+  height: 85vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.manageSideMenu {
+  flex-grow: 0;
+  padding-top: 15%;
+}
+.manageSidePaper {
+  height: auto;
+}
+.manageComponent {
+  flex-grow: 1;
+  padding-top: 7%;
 }
 
 .footerLayout {

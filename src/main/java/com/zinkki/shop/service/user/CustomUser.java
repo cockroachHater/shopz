@@ -6,8 +6,10 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 
 public class CustomUser extends User {
-    public int seq;
+    public int user_seq;
     public String name;
+    public String email;
+    public String user_role;
     public CustomUser(
             String email,
             String password,

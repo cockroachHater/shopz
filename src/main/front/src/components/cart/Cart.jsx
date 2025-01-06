@@ -1,20 +1,18 @@
-import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import useAuthCheck from "../../hooks/login/useAuthCheck";
+import { useEffect } from "react";
 
-export default function MyPage() {
+export default function Cart() {
   const [userName, authCheck] = useAuthCheck();
   useEffect(() => {
     authCheck();
   }, []);
-
   return (
     <>
       <Helmet>
-        <title>마이페이지</title>
+        <title>장바구니</title>
       </Helmet>
-
-      <div className="title_text">Mypage Welcome {userName}</div>
+      <div className="title_text">장바구니</div>
     </>
   );
 }

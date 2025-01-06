@@ -7,17 +7,17 @@ import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import useIdCheck from "../../hooks/login/useIdCheck";
 import { useForm } from "react-hook-form";
+import { appUrl } from "../../api/appUrl";
+import { useNavigate } from "react-router-dom";
 
 export default function JoinForm() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
     passwordCheck: "",
     name: "",
     phone: "",
-    address: "",
-    addressDetail: "",
-    postNumber: "",
   });
 
   //id 유효성검사 커스텀 훅
@@ -41,24 +41,45 @@ export default function JoinForm() {
   const password = watch("password");
 
   const onSubmit = (data) => {
-    console.log("onsubmit");
-    console.log(data);
     setForm({
       ...form,
       password: data.password,
       passwordCheck: data.passwordCheck,
       name: data.name,
       phone: data.phone,
-      address: data.address,
-      addressDetail: data.addressDetail,
-      postNumber: data.postNumber,
     });
-    console.log(form);
+    //axios
+    if (
+      typeof form.password === "undefined" ||
+      form.password === "" ||
+      form.password === null
+    ) {
+      console.log("No axios");
+    } else {
+      appUrl
+        .post("/join", null, {
+          params: {
+            email: form.email,
+            password: form.password,
+            name: form.name,
+            phone: form.phone,
+          },
+        })
+        .then((res) => {
+          if (res.data === "ok") {
+            alert("회원가입을 축하합니다!");
+            navigate("/login");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
     <>
-      <Helmet>Join Page</Helmet>
+      <Helmet>
+        <title>회원가입</title>
+      </Helmet>
       <div className="title_text">Join</div>
       <form className={"formControl"} onSubmit={handleSubmit(onSubmit)}>
         <FloatingLabel label="Email" className="mb-3 mt-3">
@@ -208,61 +229,6 @@ export default function JoinForm() {
                   유효하지 않은 번호입니다!
                 </Alert>
               )}
-            </FloatingLabel>
-            <FloatingLabel controlId="floatingPostNumber" label="Post Code">
-              <Form.Control
-                type="text"
-                placeholder="Post Code"
-                className="mb-3 mt-3"
-                defaultValue={form.postNumber}
-                maxLength={5}
-                {...register("postNumber", { required: true })}
-                onChange={(e) => {
-                  e.target.value = e.target.value.replace(/\D/g, "");
-                  setForm({ ...form, postNumber: e.target.value });
-                }}
-              />
-              {errors.postNumber && errors.postNumber.type === "required" && (
-                <Alert severity="error" className={"mt-3 mb-3"}>
-                  우편번호를 입력하세요!
-                </Alert>
-              )}
-            </FloatingLabel>
-            <FloatingLabel controlId="floatingAddress" label="Address">
-              <Form.Control
-                type="text"
-                placeholder="Address"
-                className="mb-3 mt-3"
-                defaultValue={form.address}
-                {...register("address", { required: true })}
-                onChange={(e) => setForm({ ...form, address: e.target.value })}
-              />
-              {errors.address && errors.address.type === "required" && (
-                <Alert severity="error" className={"mt-3 mb-3"}>
-                  주소를 입력하세요!
-                </Alert>
-              )}
-            </FloatingLabel>
-            <FloatingLabel
-              controlId="floatingAddressDetail"
-              label="AddressDetail"
-            >
-              <Form.Control
-                type="text"
-                placeholder="AddressDetail"
-                className="mb-3 mt-3"
-                defaultValue={form.addressDetail}
-                {...register("addressDetail", { required: true })}
-                onChange={(e) =>
-                  setForm({ ...form, addressDetail: e.target.value })
-                }
-              />
-              {errors.addressDetail &&
-                errors.addressDetail.type === "required" && (
-                  <Alert severity="error" className={"mt-3 mb-3"}>
-                    상세주소를 입력해주세요.
-                  </Alert>
-                )}
             </FloatingLabel>
             <Button
               className={"mt-3"}

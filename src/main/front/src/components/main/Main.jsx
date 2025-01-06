@@ -14,6 +14,9 @@ export default function Main() {
 
   const [item, setItem] = useState([{ id: 0, title: "", price: 0 }]);
 
+  useEffect(() => {
+    getItem();
+  }, []);
   const getItem = async () => {
     const list = await appUrl
       .get("/list")
@@ -23,11 +26,6 @@ export default function Main() {
       })
       .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    localStorage.clear();
-    //getItem();
-  }, []);
 
   const add = (e) => {
     e.preventDefault();
@@ -61,11 +59,11 @@ export default function Main() {
         <div>
           <img src={logoR} className="App-logo" alt="logo" />
           <p>Main</p>
-          {/*{item.map((item) => (*/}
-          {/*  <div key={item.id}>*/}
-          {/*    ID : {item.id}, Title : {item.title}, Price : {item.price}*/}
-          {/*  </div>*/}
-          {/*))}*/}
+          {item.map((item) => (
+            <div key={item.id}>
+              ID : {item.id}, Title : {item.title}, Price : {item.price}
+            </div>
+          ))}
           <p>test : {count}</p>
           <p>
             name : {user.name} , age : {user.age}
