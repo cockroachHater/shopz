@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BasicController {
 
-
     @GetMapping("/main")
     String main() { return "index.html"; }
 

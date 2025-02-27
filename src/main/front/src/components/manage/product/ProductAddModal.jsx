@@ -1,6 +1,6 @@
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { Button } from "@mui/material";
+import { Button, Switch } from "@mui/material";
 import { useEffect, useState } from "react";
 import { appUrl } from "../../../api/appUrl";
 import { useForm } from "react-hook-form";
@@ -14,14 +14,13 @@ export default function ProductAddModal(props) {
     img: "",
     product_detail: "",
     stock: 0,
+    product_status: 0,
   });
 
   useEffect(() => {
     getCategory();
   }, []);
-  useEffect(() => {
-    formReset();
-  }, [setForm]);
+
   const [category, setCategory] = useState([
     { category_seq: 0, category_title: "" },
   ]);
@@ -34,7 +33,6 @@ export default function ProductAddModal(props) {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("-----hook form-start-----");
     setForm({
       ...form,
       category_seq: data.category_seq,
@@ -43,23 +41,20 @@ export default function ProductAddModal(props) {
       img: form.img[0].name,
       product_detail: data.product_detail,
       stock: data.stock,
+      product_status: data.status,
     });
-    console.log(form.img[0].name);
-    console.log(form);
 
     //다 됐으면 presignURL받고, s3 저장
     getPresignUrl();
+    props.handleClose();
   };
 
   const getPresignUrl = async () => {
     const name = encodeURIComponent(form.img[0].name);
-    console.log(form.img);
-    console.log(form.img[0].name);
     const result = await appUrl("/presignedUrl?filename=" + name);
-    const url = result.data;
-    console.log(url);
+    const url1 = result.data;
 
-    let confirm = await fetch(url, {
+    let confirm = await fetch(url1, {
       method: "PUT",
       body: form.img[0],
     });
@@ -74,11 +69,12 @@ export default function ProductAddModal(props) {
           img: form.img[0].name,
           product_detail: form.product_detail,
           stock: form.stock,
+          product_status: form.product_status,
         },
       })
       .then((res) => {
         if (res.data === "ok") {
-          formReset();
+          window.location.reload();
         }
       })
       .catch((err) => console.log(err));
@@ -93,38 +89,27 @@ export default function ProductAddModal(props) {
       .catch((err) => console.log(err));
   };
 
-  const formReset = () => {
-    setForm({
-      category_seq: 0,
-      product_name: "",
-      price: 0,
-      img: "",
-      product_detail: "",
-      stock: 0,
-    });
-  };
   return (
     <Modal size="lg" show={props.show} onHide={props.handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>상품 추가</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="mb-3" controlId="productCategory">
             <Form.Label>상품 카테고리 선택</Form.Label>
             <Form.Select
               type="text"
-              placeholder="상품 이름"
               autoFocus
               {...register("category_seq", {
                 required: true,
               })}
+              onChange={(e) =>
+                setForm({ ...form, category_seq: e.target.value })
+              }
             >
-              {category.map((category) => (
-                <option
-                  key={category.category_seq}
-                  value={category.category_seq}
-                >
+              {category.map((category, i) => (
+                <option key={i} value={category.categorySeq}>
                   {category.category_title}
                 </option>
               ))}
@@ -211,7 +196,7 @@ export default function ProductAddModal(props) {
             <Form.Control
               type="text"
               placeholder="상품 재고 수량"
-              maxLength={9}
+              maxLength={2}
               {...register("stock", {
                 required: true,
                 pattern: /^[0-9]*$/,
@@ -226,6 +211,21 @@ export default function ProductAddModal(props) {
                 재고 수량을 등록해주세요!
               </Alert>
             )}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="productStatus">
+            <Form.Label>상품 진열 상태 설정</Form.Label>
+            <Switch
+              onChange={(e) => {
+                let checkNum = 0;
+                if (e.target.checked === true) {
+                  checkNum = 1;
+                }
+                if (e.target.checked === false) {
+                  checkNum = 0;
+                }
+                setForm({ ...form, product_status: checkNum });
+              }}
+            />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

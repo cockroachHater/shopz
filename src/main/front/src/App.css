@@ -16,6 +16,8 @@
 .mainLayout {
   background-color: #282c34;
   min-height: 100vh;
+  padding-top: 20px;
+  padding-bottom: 50px;
   /*display: flex;*/
   /*flex-direction: column;*/
   align-items: center;
@@ -29,9 +31,10 @@
   color: #90caf9;
   font-size: 2rem;
   font-weight: bold;
+  padding: 20px;
 }
 .manageLayout {
-  height: 85vh;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -47,7 +50,6 @@
 }
 .manageComponent {
   flex-grow: 1;
-  padding-top: 7%;
 }
 
 .footerLayout {
@@ -83,3 +85,19 @@
   padding: 15px;
   min-width: 320px;
 }
+
+/* AdminPage - ProductImg  */
+.productListImg {
+  width: 80px;
+  height: 80px;
+}
+/* ClientPate - product Detail img */
+.productDetailImg {
+  width: 60%;
+  height: 60%;
+}
+.modalDiv {
+  text-align: center;
+}
+
+/* cart- CartDetail  product countBtn */

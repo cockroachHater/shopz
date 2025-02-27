@@ -42,7 +42,7 @@ export default function ManageSideMenu() {
           <ListItemIcon>
             <ShoppingCart fontSize="small" />
           </ListItemIcon>
-          <ListItemText>구매내역 관리</ListItemText>
+          <ListItemText>주문 관리</ListItemText>
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => navigate("/manage/user")}>

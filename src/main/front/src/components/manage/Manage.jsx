@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import ManageSideMenu from "./menu/ManageSideMenu";
 import { useLocation } from "react-router-dom";
 import ProductManage from "./product/ProductManage";
+import { Box } from "@mui/material";
 
 export default function Manage() {
   const [userRole, roleCheck] = useRoleCheck();
@@ -19,13 +20,15 @@ export default function Manage() {
         <title>AdminPage!</title>
       </Helmet>
 
-      <Container className="manageLayout">
-        <div className="manageSideMenu">
-          <ManageSideMenu />
-        </div>
-        <div className="manageComponent">
-          {pathname === "/manage" ? <ProductManage /> : <Outlet />}
-        </div>
+      <Container>
+        <Box className="manageLayout">
+          <div className="manageSideMenu">
+            <ManageSideMenu />
+          </div>
+          <div className="manageComponent">
+            {pathname === "/manage" ? <ProductManage /> : <Outlet />}
+          </div>
+        </Box>
       </Container>
     </>
   );

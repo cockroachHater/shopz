@@ -13,6 +13,7 @@ export default function useAuthCheck() {
   function authCheck() {
     if (userName === null) {
       navigate("/");
+      return -1;
     }
   }
 

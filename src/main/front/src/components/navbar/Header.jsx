@@ -91,7 +91,7 @@ export default function Header(props) {
                     <NavDropdown.Item href="/mypage">
                       마이페이지
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="/buy">구매내역</NavDropdown.Item>
+                    <NavDropdown.Item href="/order">주문내역</NavDropdown.Item>
                     <NavDropdown.Item href="/cart">장바구니</NavDropdown.Item>
                     <NavDropdown.Item onClick={() => logout()}>
                       Logout

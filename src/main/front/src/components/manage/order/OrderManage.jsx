@@ -1,4 +1,4 @@
-export default function PurchaseManage() {
+export default function OrderManage() {
   return (
     <div>
       <div>PurchaseManage!</div>
