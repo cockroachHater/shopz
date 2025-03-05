@@ -68,6 +68,9 @@ export default function Header(props) {
               <Nav.Link href="/faq">
                 <Font>FAQ</Font>
               </Nav.Link>
+              <Nav.Link href="/search">
+                <Font>Search</Font>
+              </Nav.Link>
 
               {props.userName === null ? (
                 <Nav.Link href="/login">
@@ -88,9 +91,6 @@ export default function Header(props) {
                         관리자페이지
                       </NavDropdown.Item>
                     ) : null}
-                    <NavDropdown.Item href="/mypage">
-                      마이페이지
-                    </NavDropdown.Item>
                     <NavDropdown.Item href="/order">주문내역</NavDropdown.Item>
                     <NavDropdown.Item href="/cart">장바구니</NavDropdown.Item>
                     <NavDropdown.Item onClick={() => logout()}>

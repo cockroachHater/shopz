@@ -23,4 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "order by sum(oi.counts) desc limit 15", nativeQuery = true)
     List<Product> selectProductBest();
 
+    @Query(value = "select * from product where match(product_name) against(?1)", nativeQuery = true)
+    List<Product> selectSearchProduct(String searchText);
+
 }

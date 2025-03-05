@@ -91,13 +91,18 @@
   width: 80px;
   height: 80px;
 }
-/* ClientPate - product Detail img */
+/* ClientPage - product Detail img */
 .productDetailImg {
   width: 60%;
   height: 60%;
 }
 .modalDiv {
   text-align: center;
+}
+/* ClientPage EventModal */
+.eventDetailImg {
+  width: 40%;
+  height: 40%;
 }
 
 /* cart- CartDetail  product countBtn */

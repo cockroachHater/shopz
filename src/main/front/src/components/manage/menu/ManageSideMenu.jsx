@@ -38,7 +38,7 @@ export default function ManageSideMenu() {
           </ListItemIcon>
           <ListItemText>FAQ 관리</ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => navigate("/manage/purchase")}>
+        <MenuItem onClick={() => navigate("/manage/order")}>
           <ListItemIcon>
             <ShoppingCart fontSize="small" />
           </ListItemIcon>
@@ -49,7 +49,7 @@ export default function ManageSideMenu() {
           <ListItemIcon>
             <EmojiPeople fontSize="small" />
           </ListItemIcon>
-          <ListItemText>회원 관리</ListItemText>
+          <ListItemText>회원별 주문 관리</ListItemText>
         </MenuItem>
       </MenuList>
     </Paper>

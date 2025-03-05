@@ -1,41 +1,17 @@
-import { Helmet } from "react-helmet-async";
-import { Fragment, useEffect, useState } from "react";
-import useAuthCheck from "../../hooks/login/useAuthCheck";
-import Container from "react-bootstrap/Container";
+import Modal from "react-bootstrap/Modal";
+import { useEffect, useState } from "react";
 import {
   Box,
   Collapse,
   IconButton,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
 } from "@mui/material";
-import { appUrl } from "../../api/appUrl";
 
-export default function Order() {
-  const [userName, authCheck] = useAuthCheck();
-  const [orderInfo, setOrderInfo] = useState([
-    {
-      userSeq: 0,
-      userName: "",
-      orderSeq: 0,
-      oDate: "",
-      postCode: "",
-      address: "",
-      addressDetail: "",
-      oStatus: "",
-      orderItemSeq: 0,
-      counts: 0,
-      productSeq: 0,
-      productName: "",
-      price: 0,
-      img: "",
-      stock: 0,
-    },
-  ]);
+export default function UserOrderModal(props) {
   const [removeDinfo, setRemoveDinfo] = useState([
     {
       userSeq: 0,
@@ -55,66 +31,52 @@ export default function Order() {
       stock: 0,
     },
   ]);
-  useEffect(() => {
-    authCheck();
-    if (authCheck() != -1) {
-      appUrl
-        .post("/orderList", null, {
-          params: { user_seq: localStorage.getItem("seq") },
-        })
-        .then((res) => {
-          setOrderInfo(res.data);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [setOrderInfo]);
 
   useEffect(() => {
-    const arr = orderInfo.filter(
+    const arr = props.order.filter(
       (val, idx, self) =>
         idx === self.findIndex((t) => t.orderSeq === val.orderSeq),
     );
     setRemoveDinfo(arr);
-  }, [orderInfo]);
+  }, [props]);
 
   const rows = removeDinfo;
 
   return (
-    <>
-      <Helmet>
-        <title>주문내역</title>
-      </Helmet>
-      <div className="title_text">주문내역</div>
-      <Container>
-        <Paper sx={{ width: "100%" }}>
-          <Table aria-label="collapsible table">
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell>주문번호</TableCell>
-                <TableCell>주문 날짜</TableCell>
-                <TableCell>주문 상태</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows &&
-                rows.map((row, i) => (
-                  <TestRow
-                    key={i}
-                    seq={row.orderSeq}
-                    date={row.odate}
-                    status={row.ostatus}
-                    order={orderInfo}
-                    postCode={row.postCode}
-                    address={row.address}
-                    addressDetail={row.addressDetail}
-                  />
-                ))}
-            </TableBody>
-          </Table>
-        </Paper>
-      </Container>
-    </>
+    <Modal size={"lg"} show={props.show} onHide={props.handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          {props.userEmail}/총 주문 {removeDinfo.length}건
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell>주문번호</TableCell>
+              <TableCell>주문 날짜</TableCell>
+              <TableCell>주문 상태</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows &&
+              rows.map((row, i) => (
+                <TestRow
+                  key={i}
+                  seq={row.orderSeq}
+                  date={row.odate}
+                  status={row.ostatus}
+                  order={props.order}
+                  postCode={row.postCode}
+                  address={row.address}
+                  addressDetail={row.addressDetail}
+                />
+              ))}
+          </TableBody>
+        </Table>
+      </Modal.Body>
+    </Modal>
   );
 }
 

@@ -12,8 +12,10 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
 
     //카트리스트
     @Query(value="select u.user_seq userSeq, u.name userName, \n" +
-            "p.product_seq productSeq, p.product_name productName, p.price price, p.img img,\n" +
-            "c.cart_seq cartSeq, c.counts productCounts \n" +
+            "p.product_seq productSeq, p.product_name productName, \n" +
+            "p.stock stock, p.price price, p.img img, \n" +
+            "c.cart_seq cartSeq, \n" +
+            "if(c.counts >= p.stock, p.stock, c.counts) as productCounts \n" +
             "from user u \n" +
             "inner join cart c \n" +
             "on u.user_seq = c.user_seq  \n" +
@@ -48,8 +50,9 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     //카트 상세 보기
     @Query(value = "select u.user_seq userSeq, u.name userName,\n" +
             "p.product_seq productSeq, p.product_name productName, \n" +
-            "p.price price, p.img img,\n" +
-            "c.cart_seq cartSeq, c.counts productCounts \n" +
+            "p.stock stock, p.price price, p.img img,\n" +
+            "c.cart_seq cartSeq," +
+            "if(c.counts >= p.stock, p.stock, c.counts) as productCounts \n" +
             "from `user` u\n" +
             "inner join cart c \n" +
             "on u.user_seq = c.user_seq\n" +

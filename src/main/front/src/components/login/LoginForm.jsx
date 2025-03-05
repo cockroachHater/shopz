@@ -4,9 +4,10 @@ import Alert from "@mui/material/Alert";
 import { useState } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
+import Container from "react-bootstrap/Container";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function LoginForm() {
           localStorage.setItem("email", res.data.email);
           localStorage.setItem("name", res.data.name);
           localStorage.setItem("role", res.data.user_role);
-          navigate("/mypage");
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -41,47 +42,51 @@ export default function LoginForm() {
       <Helmet>
         <title>Login Page</title>
       </Helmet>
-      <div className="title_text">Login</div>
-      <form onSubmit={login}>
-        <FloatingLabel
-          controlId="floatingInput"
-          label="email"
-          className="mb-3 mt-3"
-        >
-          <Form.Control type="text" placeholder="email" name={"email"} />
-        </FloatingLabel>
-        <FloatingLabel controlId="floatingPassword" label="Password">
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name={"password"}
-          />
-        </FloatingLabel>
-        {show === true ? (
-          <Alert severity="error" className={"mt-3"}>
-            잘못된 정보입니다!
-          </Alert>
-        ) : (
-          <></>
-        )}
-        <Button
-          className={"m-3"}
-          onClick={() => {
-            navigate("/join");
-          }}
-          variant={"outlined"}
-        >
-          Join
-        </Button>
-        <Button
-          className={"m-3"}
-          variant="contained"
-          type={"submit"}
-          endIcon={<SendIcon />}
-        >
-          Login
-        </Button>
-      </form>
+      <Container>
+        <div className="title_text">Login</div>
+        <Box sx={{ maxWidth: 500, margin: "auto" }}>
+          <form onSubmit={login}>
+            <FloatingLabel
+              controlId="floatingInput"
+              label="email"
+              className="mb-3 mt-3"
+            >
+              <Form.Control type="text" placeholder="email" name={"email"} />
+            </FloatingLabel>
+            <FloatingLabel controlId="floatingPassword" label="Password">
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                name={"password"}
+              />
+            </FloatingLabel>
+            {show === true ? (
+              <Alert severity="error" className={"mt-3"}>
+                잘못된 정보입니다!
+              </Alert>
+            ) : (
+              <></>
+            )}
+            <Button
+              className={"m-3"}
+              onClick={() => {
+                navigate("/join");
+              }}
+              variant={"outlined"}
+            >
+              Join
+            </Button>
+            <Button
+              className={"m-3"}
+              variant="contained"
+              type={"submit"}
+              endIcon={<SendIcon />}
+            >
+              Login
+            </Button>
+          </form>
+        </Box>
+      </Container>
     </>
   );
 }

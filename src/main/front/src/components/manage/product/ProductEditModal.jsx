@@ -85,7 +85,6 @@ export default function ProductEditModal(props) {
         },
       })
       .then((res) => {
-        console.log(res.data);
         alert("삭제 완료");
         window.location.reload();
       })
@@ -93,7 +92,6 @@ export default function ProductEditModal(props) {
   }
 
   const handleSubmit = () => {
-    console.log(form);
     if (
       !form.product_name ||
       !form.img ||

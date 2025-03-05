@@ -116,7 +116,7 @@ export default function ProductManage() {
   return (
     <>
       <Container className="manageComponentTable">
-        <div className="title_text">Manager</div>
+        <div className="title_text">상품 관리</div>
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 700 }}>
             <Table stickyHeader aria-label="sticky table" size="small">

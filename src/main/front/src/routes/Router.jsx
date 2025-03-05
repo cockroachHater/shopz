@@ -5,7 +5,6 @@ import Faq from "../components/faq/Faq";
 import Layout from "../layouts/Layout";
 import Manage from "../components/manage/Manage";
 import JoinForm from "../components/login/JoinForm";
-import MyPage from "../components/login/MyPage";
 import Cart from "../components/cart/Cart";
 import ProductList from "../components/product/ProductList";
 import ProductManage from "../components/manage/product/ProductManage";
@@ -14,6 +13,7 @@ import FaqManage from "../components/manage/faq/FaqManage";
 import OrderManage from "../components/manage/order/OrderManage";
 import UserManage from "../components/manage/user/UserManage";
 import Order from "../components/order/Order";
+import Search from "../components/search/Search";
 
 export default function Router() {
   return (
@@ -23,13 +23,15 @@ export default function Router() {
         <Route path="join" element={<JoinForm />} />
 
         {/** loginUser **/}
-        <Route path="mypage" element={<MyPage />} />
         <Route path="cart" element={<Cart />} />
         <Route path="order" element={<Order />} />
 
         {/** notice **/}
         <Route path="event" element={<Event />} />
         <Route path="faq" element={<Faq />} />
+
+        {/* search ProductList */}
+        <Route path="search" element={<Search />} />
 
         {/** product **/}
         <Route
@@ -68,12 +70,11 @@ export default function Router() {
         </Route>
 
         {/** admin**/}
-        {/*<Route path="manage" element={<Manage />} />*/}
         <Route path="manage" element={<Manage />}>
           <Route path="product" element={<ProductManage />} />
           <Route path="event" element={<EventManage />} />
           <Route path="faq" element={<FaqManage />} />
-          <Route path="purchase" element={<OrderManage />} />
+          <Route path="order" element={<OrderManage />} />
           <Route path="user" element={<UserManage />} />
         </Route>
       </Route>

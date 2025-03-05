@@ -1,6 +1,7 @@
 package com.zinkki.shop.controllor.user;
 
 import com.zinkki.shop.repository.user.User;
+import com.zinkki.shop.repository.user.UserInterface;
 import com.zinkki.shop.repository.user.UserRepository;
 import com.zinkki.shop.service.user.CustomUser;
 import com.zinkki.shop.service.user.JwtUtil;
@@ -14,9 +15,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -81,5 +85,13 @@ public class UserController {
             System.out.println("None-auth");
             return null;
         }
+    }
+
+    //유저리스트
+    @GetMapping("/api/allUserList")
+    @ResponseBody
+    List<User> allUserList() {
+        List<User> user = userRepository.findAll();
+        return user;
     }
 }

@@ -1,35 +1,24 @@
 import Container from "react-bootstrap/Container";
-import { useEffect, useState } from "react";
-import useCategoryPath from "../../hooks/product/useCategoryPath";
-import { appUrl } from "../../api/appUrl";
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
   Typography,
 } from "@mui/material";
-import ProductDetailModal from "./ProductDetailModal";
+import Form from "react-bootstrap/Form";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import { useState } from "react";
+import { appUrl } from "../../api/appUrl";
+import ProductDetailModal from "../product/ProductDetailModal";
 
-export default function ProductList() {
+export default function Search() {
   const awsurl =
     "https://s3.ap-northeast-2.amazonaws.com/zstorage.store/product/";
-  const [category] = useCategoryPath();
-  const [num, setNum] = useState(-1);
-  const [productInfo, setProductInfo] = useState([
-    {
-      product_seq: 0,
-      category_seq: 0,
-      product_name: "",
-      price: 0,
-      img: "",
-      product_detail: "",
-      stock: 0,
-      product_status: 0,
-      category_title: "",
-    },
-  ]);
+  const [searchText, setSearchText] = useState("");
+  const [productInfo, setProductInfo] = useState([]);
   const [productDetail, setProductDetail] = useState([
     {
       product_seq: 0,
@@ -44,6 +33,16 @@ export default function ProductList() {
     },
   ]);
 
+  const handleSearch = (searchText) => {
+    appUrl
+      .post("/ProductSearchList", null, {
+        params: { searchText: searchText },
+      })
+      .then((res) => {
+        setProductInfo(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
   //Modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -52,49 +51,43 @@ export default function ProductList() {
     const result = await appUrl
       .post("/productDetail", null, { params: { product_seq: productSeq } })
       .then((res) => {
-        //console.log(res.data[0]);
         setProductDetail(res.data[0]);
       })
       .catch((err) => console.log(err));
     handleShow();
   };
 
-  useEffect(() => {
-    switch (category) {
-      case "candy":
-        setNum(0);
-        break;
-      case "jelly":
-        setNum(1);
-        break;
-      case "chocolate":
-        setNum(2);
-        break;
-      case "caramel":
-        setNum(3);
-        break;
-      case "marshmallow":
-        setNum(4);
-        break;
-      case "best":
-        setNum(5);
+  //엔터키로 검색
+  const enterEvent = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(e.target.value);
     }
-  }, [category]);
-
-  useEffect(() => {
-    appUrl
-      .post("/productCategory", null, {
-        params: { category_seq: num },
-      })
-      .then((res) => {
-        //console.log(res.data);
-        setProductInfo(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, [num]);
+  };
 
   return (
     <Container>
+      <FloatingLabel
+        controlId="floatingInput"
+        label="search"
+        className="mb-3 mt-3"
+      >
+        <Form.Control
+          type="text"
+          placeholder="search"
+          name={"search"}
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => enterEvent(e)}
+        />
+      </FloatingLabel>
+      <Button
+        className={"m-3"}
+        onClick={() => handleSearch(searchText)}
+        variant={"contained"}
+      >
+        검색
+      </Button>
+
+      <div className="title_text">Search List</div>
       <Box
         sx={{
           width: "100%",

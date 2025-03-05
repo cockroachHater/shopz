@@ -6,6 +6,7 @@ import com.zinkki.shop.repository.order.OrderRepository;
 import com.zinkki.shop.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -76,11 +77,19 @@ public class OrderController {
         }
     }
 
-    //주문 목록
+    //유저별 주문 목록
     @PostMapping("/api/orderList")
     @ResponseBody
     List<CustomOrderInterface> orderList(@RequestParam int user_seq) {
         List<CustomOrderInterface> result = orderRepository.selectOrderList(user_seq);
+        return result;
+    }
+
+    //관리자-전체 주문목록
+    @GetMapping("/api/allOrderList")
+    @ResponseBody
+    List<CustomOrderInterface> allOrderList() {
+        List<CustomOrderInterface> result = orderRepository.selectAllOrderList();
         return result;
     }
 }

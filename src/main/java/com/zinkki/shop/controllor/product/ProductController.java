@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -85,6 +84,13 @@ public class ProductController {
             List<Product> result = productRepository.selectProductByCategorySeq(category_seq);
             return result;
         }
+    }
+
+    @PostMapping("/api/ProductSearchList")
+    @ResponseBody
+    List<Product> productSearchList(@RequestParam String searchText) {
+        List<Product> searchList = productRepository.selectSearchProduct(searchText);
+        return searchList;
     }
 
     //상품디테일

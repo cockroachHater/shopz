@@ -10,7 +10,8 @@ export default function CartUpdateModal(props) {
   let counts = useSelector((state) => state.product);
   let dispatch = useDispatch();
 
-  const [btndisable, setBtnDisable] = useState(false);
+  const [mDisable, setMDisable] = useState(false);
+  const [pDisable, setPDisable] = useState(false);
 
   useEffect(() => {
     dispatch(reset());
@@ -18,9 +19,12 @@ export default function CartUpdateModal(props) {
 
   useEffect(() => {
     if (counts + props.cart.productCounts == 1) {
-      setBtnDisable(true);
+      setMDisable(true);
+    } else if (counts + props.cart.productCounts >= props.cart.stock) {
+      setPDisable(true);
     } else {
-      setBtnDisable(false);
+      setMDisable(false);
+      setPDisable(false);
     }
   }, [counts, props]);
 
@@ -52,7 +56,7 @@ export default function CartUpdateModal(props) {
               variant={"outlined"}
               className={"cntBtn"}
               onClick={() => dispatch(minus())}
-              disabled={btndisable}
+              disabled={mDisable}
             >
               -
             </Button>
@@ -62,6 +66,7 @@ export default function CartUpdateModal(props) {
               variant={"outlined"}
               className={"cntBtn"}
               onClick={() => dispatch(plus())}
+              disabled={pDisable}
             >
               +
             </Button>

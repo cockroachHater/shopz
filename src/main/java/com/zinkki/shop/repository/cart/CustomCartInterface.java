@@ -4,6 +4,7 @@ public interface CustomCartInterface {
     int getUserSeq();
     String getUserName();
     String getProductName();
+    int getStock();
     int getProductSeq();
     int getPrice();
     String getImg();

@@ -58,6 +58,7 @@ export default function Cart() {
       userSeq: 0,
       userName: "",
       productName: "",
+      stock: 0,
       img: "",
       price: 0,
       productCounts: 0,
