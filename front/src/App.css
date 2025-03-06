@@ -27,6 +27,10 @@
   color: #ababab;
 }
 
+.just_text {
+  color: #eeeeee;
+  font-size: 15px;
+}
 .title_text {
   color: #90caf9;
   font-size: 2rem;
@@ -105,4 +109,5 @@
   height: 40%;
 }
 
-/* cart- CartDetail  product countBtn */
+
+/* typing effect */

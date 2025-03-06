@@ -16,10 +16,10 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
             "p.stock stock, p.price price, p.img img, \n" +
             "c.cart_seq cartSeq, \n" +
             "if(c.counts >= p.stock, p.stock, c.counts) as productCounts \n" +
-            "from user u \n" +
-            "inner join cart c \n" +
+            "from User u \n" +
+            "inner join Cart c \n" +
             "on u.user_seq = c.user_seq  \n" +
-            "inner join product p \n" +
+            "inner join Product p \n" +
             "on c.product_seq = p.product_seq \n" +
             "where c.user_seq =?1 group by userSeq, productSeq \n" +
             "order by c.cart_seq desc", nativeQuery = true)
@@ -32,10 +32,10 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
             "p.product_name productName, \n" +
             "p.price price, p.img img,\n" +
             "c.counts productCounts \n" +
-            "from user u \n" +
-            "inner join cart c\n" +
+            "from User u \n" +
+            "inner join Cart c\n" +
             "on u.user_seq = c.user_seq  \n" +
-            "inner join product p \n" +
+            "inner join Product p \n" +
             "on c.product_seq = p.product_seq\n" +
             "where c.user_seq =?1 and c.product_seq =?2", nativeQuery = true)
     Optional<CartInterface> selectCartByDupl(int user_seq, int product_seq);
@@ -43,7 +43,7 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     //기존상품이 담겨있을 때 갯수 추가
     @Modifying
     @Transactional
-    @Query(value = "update cart set counts=counts+?1 \n"
+    @Query(value = "update Cart set counts=counts+?1 \n"
             + "where user_seq=?2 and product_seq=?3", nativeQuery = true)
     void countsAddCart(int counts, int user_seq, int product_seq);
 
@@ -53,10 +53,10 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
             "p.stock stock, p.price price, p.img img,\n" +
             "c.cart_seq cartSeq," +
             "if(c.counts >= p.stock, p.stock, c.counts) as productCounts \n" +
-            "from `user` u\n" +
-            "inner join cart c \n" +
+            "from `User` u\n" +
+            "inner join Cart c \n" +
             "on u.user_seq = c.user_seq\n" +
-            "inner join product p \n" +
+            "inner join Product p \n" +
             "on c.product_seq = p.product_seq\n" +
             "where c.cart_seq =?1", nativeQuery = true)
     List<CustomCartInterface> selectCartByCart(int cart_seq);
@@ -64,19 +64,19 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     //상품 갯수 수정
     @Modifying
     @Transactional
-    @Query(value="update cart set counts=?1 where cart_seq=?2", nativeQuery = true)
+    @Query(value="update Cart set counts=?1 where cart_seq=?2", nativeQuery = true)
     void countsUpdateCart(int count, int cartSeq);
 
     //카트 상품 삭제
     @Modifying
     @Transactional
-    @Query(value="delete from cart where cart_seq=?1", nativeQuery = true)
+    @Query(value="delete from Cart where cart_seq=?1", nativeQuery = true)
     void deleteCart(int cart_seq);
 
     //주문 완료된 상품 재고 차감
     @Modifying
     @Transactional
-    @Query(value="update product set stock=stock-?1 \n" +
+    @Query(value="update Product set stock=stock-?1 \n" +
             "where product_seq=?2", nativeQuery = true)
     void minusProductStock(int product_count, int product_seq);
 

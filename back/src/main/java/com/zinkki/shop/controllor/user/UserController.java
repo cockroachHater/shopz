@@ -1,7 +1,6 @@
 package com.zinkki.shop.controllor.user;
 
 import com.zinkki.shop.repository.user.User;
-import com.zinkki.shop.repository.user.UserInterface;
 import com.zinkki.shop.repository.user.UserRepository;
 import com.zinkki.shop.service.user.CustomUser;
 import com.zinkki.shop.service.user.JwtUtil;

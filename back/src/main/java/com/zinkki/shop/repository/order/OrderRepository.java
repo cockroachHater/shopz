@@ -13,7 +13,7 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
     @Modifying
     @Transactional
     @Query(value="insert into \n" +
-            "order_item(order_seq, product_seq, counts) \n" +
+            "Order_item(order_seq, product_seq, counts) \n" +
             "values(?1, ?2, ?3)", nativeQuery = true)
     void insertOrderItems(int order_seq, int product_seq, int counts);
 
@@ -26,12 +26,12 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
             "oi.order_item_seq orderItemSeq, oi.counts counts,\n" +
             "p.product_seq productSeq, p.product_name productName, \n" +
             "p.price price, p.img img, p.stock stock \n" +
-            "from `user` u \n" +
-            "inner join orders o \n" +
+            "from `User` u \n" +
+            "inner join Orders o \n" +
             "on u.user_seq = o.user_seq \n" +
-            "inner join order_item oi \n" +
+            "inner join Order_item oi \n" +
             "on o.order_seq = oi.order_seq \n" +
-            "inner join product p \n" +
+            "inner join Product p \n" +
             "on oi.product_seq = p.product_seq \n" +
             "where u.user_seq = ?1 order by o.order_seq desc", nativeQuery = true)
     List<CustomOrderInterface> selectOrderList(int user_seq);
@@ -45,12 +45,12 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
             "oi.order_item_seq orderItemSeq, oi.counts counts,\n" +
             "p.product_seq productSeq, p.product_name productName, \n" +
             "p.price price, p.img img, p.stock stock \n" +
-            "from `user` u \n" +
-            "inner join orders o \n" +
+            "from `User` u \n" +
+            "inner join Orders o \n" +
             "on u.user_seq = o.user_seq \n" +
-            "inner join order_item oi \n" +
+            "inner join Order_item oi \n" +
             "on o.order_seq = oi.order_seq \n" +
-            "inner join product p \n" +
+            "inner join Product p \n" +
             "on oi.product_seq = p.product_seq \n" +
             "order by o.order_seq desc", nativeQuery = true)
     List<CustomOrderInterface> selectAllOrderList();
